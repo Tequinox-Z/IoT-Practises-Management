@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IoT</title>
+  <meta id="theme-browser" name="theme-color" content="#000000">
+  <link rel="stylesheet" href="file/css/styles.css">
+</head>
+<body>
+  <div id="intro-transition">
+    <div id="intro">
+      <img src="file/img/logo.png">
+      <div id="inline-div">
+        <h3>Practises Management</h3>
+        <p>IoT</p>
+      </div>
+      <div id="loading"></div>
+    </div>
+  </div>
+
+  <div id="center-flex">
+    <div id="first-display">
+      <h3 id="idioma-text-es" class="showUp over">Seleccione su lenguaje</h3>
+      <h3 id="idioma-text-en" class="hideDown over">Select your language</h3>
+      <div id="language">
+        <img id="es" src="file/img/es.jpg">
+        <img id="en" src="file/img/en.png">
+      </div>
+    </div>
+  </div>
+      <div id="second-display" class="hidden">
+      <div id="image">
+          <picture class="pinout">
+            <img id="node" src="file/img/nodemcu.png">
+          </picture>
+      </div>
+      <div id="circuit-text">
+        <h4>Conexiones de los sensores</h4>
+        <p><span></span>Conecte el sensor de movimiento en el pin digital 1</p>
+        <p><span></span>Conecte el sensor de temperatura y humedad en el pin digital 3</p>
+      </div>
+    </div>
+
+  <div id="theme-button">
+    <img id="theme" src="file/img/dark.png">
+  </div>
+  <script src="file/js/main.js"></script>
+</body>
+</html>
