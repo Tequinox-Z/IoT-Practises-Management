@@ -1,4 +1,3 @@
-AsyncWebServer serverAP(80);
 DNSServer dnsServerAP;
 
 void setupAP(char* ssid = SSID_AP) {
@@ -23,8 +22,6 @@ void ConnectWiFi_STA(bool useStaticIP = false, char* ssid = "", char* password =
    { 
      
    }
-     Serial.print(F("IP Address: "));
-     Serial.println(WiFi.localIP());
 }
 
 

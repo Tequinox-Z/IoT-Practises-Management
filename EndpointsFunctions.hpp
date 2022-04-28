@@ -5,11 +5,10 @@
 HTTPClient http; 
 WiFiClient client;
 
-String jsonAPs = "";
-
-String printScanResult(int networksFound)
-{
-  jsonAPs = "{\"networks\": [";
+void scanWifi()
+{ 
+  int networksFound =  WiFi.scanNetworks();
+  String jsonAPs = "{\"networks\": [";
 
   for (int i = 0; i < networksFound; i++)
   {
@@ -21,33 +20,8 @@ String printScanResult(int networksFound)
   }
 
   jsonAPs += "]}";
-}
 
-void scanSta(AsyncWebServerRequest *request) {
-  WiFi.scanNetworksAsync(printScanResult);
-  request->send(201, "text/html", "");
-}
-
-void getAps(AsyncWebServerRequest *request) {
-  Serial.printf(WiFi.SSID(0).c_str());
-  request->send(200, "application/json", jsonAPs);
-}
-
-void getInfoSensors(AsyncWebServerRequest *request) {
-  //  request->send(200, "application/json", "{\"temperature\":" + String(getTemperature()) + "}");
-}
-
-void getIndex(AsyncWebServerRequest * request) {
-   request->send(SPIFFS, "/index.html", "text/html");
-}
-
-void setConfiguration(AsyncWebServerRequest * request) {
-  if (request->hasArg("ssid") && request->hasArg("wifipassword") && request->hasArg("user") && request->hasArg("password")) {
-     request->redirect("/finish");
-  }
-  else {
-     request->redirect("/");
-  }
+  s.send(200, "application/json", jsonAPs);
 }
 
 void checkPIRsensor() {

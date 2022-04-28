@@ -10,7 +10,7 @@ let display1 = document.querySelector("#first-display");
 let display2 = document.querySelector("#second-display");
 
 const LIGHT_ICON = "light";
-const DARK_ICON = "dark";
+const DARK_ICON = "darkImage";
 const WHITE = "#FFFFFF";
 const DARK = "#000000";
 const ROOT_IMG = "file/img/";
