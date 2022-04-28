@@ -6,10 +6,10 @@
 
   const char* hostname = "Node-School";
 
-/* Pin de Temperatura y humedad */
+/* Pin del sensor de Temperatura y humedad */
 
-  const int TEMPERATURE_PIN = A0;
-
+  const int TEMPERATURE_PIN = 12;
+  
 /* Pin del sensor PIR */
 
   const int PIR_PIN = 5;

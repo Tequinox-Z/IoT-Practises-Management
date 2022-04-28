@@ -334,7 +334,7 @@ html {
 }
 
 #node {
-    width: 90%;
+    width: 100%;
     max-width: 260px;
     animation-name: node;
     animation-duration: 3s;
@@ -508,4 +508,18 @@ span {
     color: rgb(0, 102, 255);
     position: absolute;
     background-color: rgb(0, 38, 255);
+}
+
+#div-next {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.row {
+    width: 25px;
+}
+
+.dark .row {
+    filter: invert();
 }
