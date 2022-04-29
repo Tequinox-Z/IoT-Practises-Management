@@ -8,6 +8,14 @@ let theme_image = document.querySelector("#theme");
 let step = 1;
 let display1 = document.querySelector("#first-display");
 let display2 = document.querySelector("#second-display");
+let next = document.querySelector("#next");
+let testButton = document.querySelector("#test");
+let testModal = document.querySelector("#testModal");
+let testSensorsModal = document.querySelector("#testSensorsModal");
+let closeModalTest = document.querySelector("#closeModalTest");
+let temperatureSectionButton = document.querySelector("#temperatureSection");
+let motionSection = document.querySelector("#motionSection");
+
 
 const LIGHT_ICON = "light";
 const DARK_ICON = "darkImage";
@@ -52,13 +60,39 @@ let intervalText = setInterval(() => {
   en.classList.toggle("hideDown");
 }, 3000);
 
+temperatureSectionButton.addEventListener("click", () => {
+  temperatureSectionButton.classList.add("optionSelected");
+  motionSection.classList.remove("optionSelected");
+});
+
+motionSection.addEventListener("click", () => {
+  motionSection.classList.add("optionSelected");
+  temperatureSectionButton.classList.remove("optionSelected");
+
+});
+
 
 document.querySelector("#es").addEventListener("click", () => {
-    setLanguage("es");
+  setLanguage("es");
 });
 
 document.querySelector("#en").addEventListener("click", () => {
-    setLanguage("en");
+  setLanguage("en");
+});
+
+testButton.addEventListener("click", () => {
+  testSensorsModal.classList.remove("hidden");
+});
+
+closeModalTest.addEventListener("click", () => {
+  testModal.classList.add("hiddenAnimation");
+  testSensorsModal.classList.add("hiddenBack");
+
+  setTimeout(() => {
+    testSensorsModal.classList.remove("hiddenBack");
+    testSensorsModal.classList.add("hidden");
+    testModal.classList.remove("hiddenAnimation");
+  }, 300);
 });
 
 function setLanguage(language) {
@@ -73,4 +107,7 @@ function setLanguage(language) {
 function secondDisplay() {
   display1.classList.add("hidden")
   display2.classList.remove("hidden");
+  next.classList.remove("hidden");
 }
+
+

@@ -4,7 +4,7 @@
 #include <FS.h>
 #include <ArduinoJson.h>
 #include "DHT.h"
-#include "sources/Config.hpp"
+#include "config/Config.hpp"
 
 ESP8266WebServer s(80);
 DHT dht(TEMPERATURE_PIN, DHT11);
