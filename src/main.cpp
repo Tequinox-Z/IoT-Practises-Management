@@ -4,14 +4,14 @@
 #include <FS.h>
 #include <ArduinoJson.h>
 #include "DHT.h"
-#include "Config.hpp"
+#include "sources/Config.hpp"
 
 ESP8266WebServer s(80);
 DHT dht(TEMPERATURE_PIN, DHT11);
 
-#include "Utils.hpp"
-#include "EndpointsFunctions.hpp"
-#include "Server.hpp"
+#include "sources/Utils.hpp"
+#include "sources/EndpointsFunctions.hpp"
+#include "sources/Server.hpp"
 
 boolean getCredentials = false;
   
@@ -36,7 +36,7 @@ void setup() {
 void loop() {
   if (getCredentials) {
     checkPIRsensor();
-    delay(2000);
+    delay(1000);
   }
   else {
     loopAP();

@@ -12,7 +12,8 @@ void scanWifi()
 
   for (int i = 0; i < networksFound; i++)
   {
-    jsonAPs = jsonAPs + "\"" + dBmtoPercentage(WiFi.RSSI(i)) + "\":\"" + WiFi.SSID(i) + "\",";
+    jsonAPs = jsonAPs + "{\"signal\":\"" + dBmtoPercentage(WiFi.RSSI(i)) + "\",";
+    jsonAPs = jsonAPs+ "\"ssid\":\"" + WiFi.SSID(i) + "\"},";
   }
 
   if (networksFound != 0) {
