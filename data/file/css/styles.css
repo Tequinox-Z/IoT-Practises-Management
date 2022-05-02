@@ -262,6 +262,52 @@ html {
     width: 50%;
 }
 
+@media (max-width: 700px) {
+    #wifiLogo {
+        display: none;
+    }
+
+    #third-display {
+        flex-direction: column;
+    }
+
+    .third-element {
+        height: 50%;
+    }
+
+    #third-text {
+        width: 100% !important;
+        top: 50px !important;
+        align-items: unset !important; 
+        justify-content: unset !important; 
+        flex-direction: unset !important; 
+        align-content: unset !important; 
+        flex-wrap: unset !important;
+        height: 20%;
+        padding-left: unset !important;
+        padding-right: unset !important;
+    }
+
+    .text-zone {
+        position: relative;
+        top: 30%;
+        width: 80%;
+        padding-left: 10%;
+    }
+    #networks > div {
+        width: 100%;
+        height: 80% !important;
+    }
+
+    #networks {
+        position: absolute;
+        justify-content: flex-start !important;
+        width: 100%;
+        height: 70%;
+        bottom: 0;
+    }
+}
+
 @media (min-width: 600px) {
     .modal {
         width: 70% !important;
@@ -330,9 +376,22 @@ html {
 } */
 
 
+.pinout::before, .pinout::after {
+    animation-name: downWire;
+    animation-timing-function: cubic-bezier(1,-0.02, 0.93, 0.63);
+    animation-duration: 3s;
+}
+
+
 @media (max-width: 530px) {
     #node {
         width: 238.5px;
+    }
+    .pinout::before {
+        margin-left: 47px !important;
+    }
+    .pinout::after {
+        margin-left: -113px !important;
     }
 
     #circuit-text {
@@ -364,38 +423,38 @@ html {
     opacity: 0.7;
 }
 
-span:nth-child(1) {
-
+#red {
+    color: red;
+    font-weight: 600;
 }
 
-span {
-    background-color: black;
-    width: 5px;
-    height: 5px;
+#blue {
+    color: rgb(0, 0, 213);
+    font-weight: 600;
 }
 
 .pinout::after {
     content: '';
-    border-radius: 50%;
     margin-top: 1px;
-    margin-left: -198px;
-    width: 10px !important;
-    height: 10px !important;
-    color: yellow;
+    border-radius: 5px;
+    margin-left: -123px;
+    margin-top: -60px;
+    width: 7px !important;
+    height: 80px !important;
     position: absolute;
-    background-color: yellow;
+    background: linear-gradient(transparent 20%, red);
 }
 
 .pinout::before {
+
     content: '';
-    border-radius: 50%;
-    margin-top: 108px;
-    margin-left: 48px;
-    width: 10px !important;
-    height: 10px !important;
-    color: rgb(0, 102, 255);
+    border-radius: 5px;
+    margin-top: -60px;
+    margin-left: 52px;
+    width: 7px !important;
+    height: 80px !important;
     position: absolute;
-    background-color: rgb(0, 38, 255);
+    background: linear-gradient(transparent 20%, blue)
 }
 
 #div-next {
@@ -422,6 +481,10 @@ span {
     top: 27px;
     color: white;
     padding: 10px 15px;
+}
+
+#test:hover {
+    background-color: #616161;
 }
 
 .backModal {
@@ -537,9 +600,6 @@ span {
     height: 17px;
 }
 
-
-
-
 .page {
     display: flex;
     width: 100%;
@@ -559,19 +619,191 @@ span {
     flex-direction: column-reverse;
 }
 
+.text-zone h4 {
+    font-size: 17px;
+    margin-bottom: 7px;
+    font-weight: 300;
+}
+
+#wifiLogo {
+    width: 100px;
+}
+
+.text-zone div {
+    width: 100%;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#networks {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+#networks div {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+
+#networks div::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+#networks div::-webkit-scrollbar:vertical {
+    width:5px;
+}
+
+#networks div::-webkit-scrollbar-button:increment,.contenedor::-webkit-scrollbar-button {
+    display: none;
+} 
+
+#networks div::-webkit-scrollbar:horizontal {
+    height: 10px;
+}
+
+#networks div::-webkit-scrollbar-thumb {
+    background-color: #797979;
+    border-radius: 20px;
+}
+
+#networks div::-webkit-scrollbar-track {
+    border-radius: 10px;  
+}
+
+#networks ul li {
+    width: 100%;
+    height: 50px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+}
+
+#networks ul li:hover {
+    background-color: rgba(128, 128, 128, 0.164);
+    padding-left: 10px;
+}
+
+#networks ul li p {
+    margin-left: 20px;
+}
+
+.dark #networks ul li img {
+    filter: invert();
+}
+
+#networks ul li img {
+    width: 30px;
+}
+
+
+#networks ul {
+    list-style: none;
+}
+
+ li:hover .lock {
+    padding-right: 10px;
+}
+
+.lock {
+    position: absolute;
+    right: 20px;
+    width: 16px !important;
+}
+
+#refresh img {
+    width: 13px;
+}
+
+#refresh {
+    transition: 0.4s;
+    position: relative;
+}
+
+#refresh:hover {
+    padding-right: 10px;
+}
+
+#refresh:hover img {
+    transform: rotateZ(180deg);
+}
+
+#networks > div {
+    width: 80%;
+    height: 60%;
+}
+
+#networks > p {
+    position: relative;
+    width: 100%;
+    right: 10%;
+    top: 20px;
+    text-align: end;
+}
+
+.text-zone div img {
+    filter: contrast(0.5);
+}
+
+.text-zone p {
+    opacity: 0.7;
+    text-align: justify;
+    font-weight: 300;
+}
+
 #sensorTHpage {
     align-items: center;
     justify-content: center;
     flex-direction: column;
 }
 
+.third-element {
+    display: flex;
+}
+
+#third-text {
+    padding-left: 5%;
+    padding-right: 5%;
+    position: relative;
+    top: -30px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: nowrap;
+}
+
+#third-display {
+    display: flex;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.third-element {
+    width: 100%;
+    height: 100%;
+}
+
 #try {
     padding: 5px 10px;
-    background: grey;
+    background: #6a6a6a;
     color: white;
     position: relative;
     top: 14px;
-    border-radius: 3px;
+}
+
+#try:hover {
+    background-color: grey;
 }
 
 #errorSensorPage {
@@ -639,6 +871,10 @@ span {
     line-height: 6rem;
 }
 
+.wire {
+
+}
+
 
 .circular-graphic::after {
     content: "";
@@ -688,10 +924,35 @@ span {
     background: linear-gradient(transparent 50%, rgb(34 34 34) 50%);
 }
 
+#motion-detect {
+    position: relative !important;
+    top: 25px !important;
+}
+
+.hiddenPIR {
+    transform: rotateX(90deg);
+}
+
+#motionText {
+    position: relative;
+    transition: 0.5s;
+    top: 0px;
+}
+
+.detectMotion {
+    top: -25px !important;
+}
 
 /* Animaciones y transiciones */
 
-
+@keyframes downWire {
+    0% {
+        margin-top: -123px;
+    }
+    100% {
+        margin-top: -60px;
+    }
+}
 
 
 @keyframes height {

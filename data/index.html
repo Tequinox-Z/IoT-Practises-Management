@@ -39,13 +39,97 @@
       <div id="circuit-text">
         <h4>Conexiones de los sensores</h4>
         <p>
-          <span></span>Conecte el sensor de movimiento en el pin digital 1</p>
+          Conecte el sensor de movimiento en el pin digital           
+          <span class="wire" id="blue">D1</span>
+        </p>
         <p>
-          <span></span>Conecte el sensor de temperatura y humedad en el pin
-          digital 3
+          Conecte el sensor de temperatura y humedad en el pin
+          digital           
+          <span class="wire" id="red">D6</span>
         </p>
         <a id="test">Testear sensores</a>
       </div>
+      <div id="div-next">
+        <img id="next2" class="row" src="file/img/row.png"/>
+      </div>
+    </div>
+
+    <div id="third-display" class="hidden">
+      <div id="third-text" class="third-element">
+        <div class="text-zone">
+          <div>
+            <img id="wifiLogo" src="file/img/wifi1.png">
+          </div>
+          <h4>Seleccione su red Wi-Fi</h4>
+          <p>Es necesario que la misma disponga de conexión a internet</p>
+        </div>
+      </div>
+      <div id="networks" class="third-element">
+        <div>
+          <ul>
+            <li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li>            <li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li>            <li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li>            <li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li>            <li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li>            <li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li>            <li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li>
+            <li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li><li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li><li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li><li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li><li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li><li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li><li>
+              <img src="file/img/wifi1.png"> 
+              <p>Adamo 123</p>
+              <img class="lock" src="file/img/lock.png">
+            </li>
+          </ul>
+        </div>
+        <p id="refresh"><img src="file/img/refresh.png"> Refrescar</p>
+      </div>
+
     </div>
 
     <div id="testSensorsModal" class="hidden backModal">
@@ -77,8 +161,8 @@
         </div>
 
         <div class="page hidden" id="sensorPIRpage">
-          <p class="title">Detector de movimiento</p>
-          <p class="subtitle">Sensor </p>
+          <p class="title">Sensor de movimiento IR</p>
+          <p class="subtitle">Sensor HCSR501</p>
           <p id="motionText">Detectando movimiento ...</p>
           <img id="motion-detect" src="file/img/motion-detect.png">
         </div>
@@ -97,9 +181,7 @@
       <img id="theme" src="file/img/darkImage.png"/>
     </div>
 
-    <div id="div-next">
-      <img id="next" class="hidden row" src="file/img/row.png"/>
-    </div>
+
 
     <script src="file/js/main.js"></script>
   </body>

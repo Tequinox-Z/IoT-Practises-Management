@@ -6,8 +6,11 @@ let browser = document.querySelector("#theme-browser");
 let theme_button = document.querySelector("#theme-button");
 let theme_image = document.querySelector("#theme");
 let step = 1;
+
 let display1 = document.querySelector("#first-display");
 let display2 = document.querySelector("#second-display");
+let display3 = document.querySelector("#third-display");
+
 let next = document.querySelector("#next");
 let testButton = document.querySelector("#test");
 let testModal = document.querySelector("#testModal");
@@ -18,6 +21,9 @@ let motionSection = document.querySelector("#motionSection");
 let sensorTHpage = document.querySelector("#sensorTHpage");
 let sensorPIRpage = document.querySelector("#sensorPIRpage");
 let tryButton = document.querySelector("#try");
+let motionText = document.querySelector("#motionText");
+let motionDetectImage = document.querySelector("#motion-detect");
+
 
 let loadingPage = document.querySelector("#loadingPage");
 let sensorsGraphics = document.querySelectorAll(".sensorData");
@@ -129,7 +135,15 @@ function setLanguage(language) {
 function secondDisplay() {
   display1.classList.add("hidden");
   display2.classList.remove("hidden");
-  next.classList.remove("hidden");
+}
+
+function thirdDisplay() {
+  display2.classList.add("notShowing");
+
+  setTimeout(() => {
+    display2.classList.add("hidden");
+    display3.classList.remove("hidden");
+  }, 500)
 }
 
 function updateSensors() {
@@ -185,12 +199,20 @@ function runWebSocket() {
   };
 
   websocket2.onmessage = () => {
-   console.log("Movimiento detectado");
+    showMotion();
   };
+}
 
-  websocket2.onerror = () => {
-    // Show error
-  };
+function showMotion() {
+  motionText.innerText = "¡Movimiento detectado!";
+  motionText.classList.add("detectMotion");
+  motionDetectImage.classList.add("hiddenPIR");
+
+  setTimeout(() => {
+    motionDetectImage.classList.remove("hiddenPIR");
+    motionText.classList.remove("detectMotion");
+    motionText.innerText = "Detectando movimiento...";
+  }, 3000);
 }
 
 function refreshSensorTH(response) {
@@ -205,3 +227,8 @@ function refreshSensorTH(response) {
     humidityGraphic.style = "--angule: " + (parseInt(responseJson.humidity) * 1.8)  + "deg; --text: '" + responseJson.humidity + " %'";
   }
 }
+
+
+document.querySelector("#next2").addEventListener("click", () => {
+  thirdDisplay();
+});
