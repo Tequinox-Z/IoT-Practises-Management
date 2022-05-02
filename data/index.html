@@ -53,8 +53,34 @@
         <div id="closeModalTest" class="close">
           ×
         </div>
-        <div class="loading">
-          <img src="file/img/loading.gif">
+        <div class="page" id="sensorTHpage">
+          <p class="title">Temperatura y humedad</p>
+          <p class="subtitle">Sensor DHT-11</p>
+
+          <div class="loading" id="loadingPage">
+            <img src="file/img/loading.gif">
+          </div>
+          
+          <div valueSensor="50" class="sensorData hidden">
+            <div id="temperatureGraphic" style="--angule: 0deg; --text: 'N/A'" class="circular-graphic"></div>
+          </div>
+          <div class="sensorData hidden">
+            <div id="humidityGraphic" style="--angule: 0deg; --text: 'N/A'" class="circular-graphic"></div>
+          </div>
+
+          <div id="errorSensorPage" class="page hidden">
+            <img src="file/img/warning.png">
+            <p id="showErrorSensor"></p>
+            <p id="try">Reintentar</p>
+          </div>
+
+        </div>
+
+        <div class="page hidden" id="sensorPIRpage">
+          <p class="title">Detector de movimiento</p>
+          <p class="subtitle">Sensor </p>
+          <p id="motionText">Detectando movimiento ...</p>
+          <img id="motion-detect" src="file/img/motion-detect.png">
         </div>
         <div id="sensorsSelector">
           <div id="temperatureSection" class="option optionSelected">

@@ -5,8 +5,12 @@
 #include <ArduinoJson.h>
 #include "DHT.h"
 #include "config/Config.hpp"
+#include <WebSocketsServer.h>
 
 ESP8266WebServer s(80);
+WebSocketsServer webSocket = WebSocketsServer(81);
+WebSocketsServer webSocketMotion = WebSocketsServer(82);
+
 DHT dht(TEMPERATURE_PIN, DHT11);
 
 #include "sources/Utils.hpp"
@@ -27,6 +31,7 @@ void setup() {
       ESP.restart();
     }
 
+    InitWebSockets();
     setupAP();
   }
 
@@ -40,6 +45,11 @@ void loop() {
   }
   else {
     loopAP();
+    webSocket.loop();
+    webSocketMotion.loop();
+    broadcastSensors();
+    checkMotionWebSocket();
+    delay(100);
   }
   s.handleClient();
 }

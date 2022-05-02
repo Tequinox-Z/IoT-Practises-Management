@@ -15,7 +15,17 @@ let testSensorsModal = document.querySelector("#testSensorsModal");
 let closeModalTest = document.querySelector("#closeModalTest");
 let temperatureSectionButton = document.querySelector("#temperatureSection");
 let motionSection = document.querySelector("#motionSection");
+let sensorTHpage = document.querySelector("#sensorTHpage");
+let sensorPIRpage = document.querySelector("#sensorPIRpage");
+let tryButton = document.querySelector("#try");
 
+let loadingPage = document.querySelector("#loadingPage");
+let sensorsGraphics = document.querySelectorAll(".sensorData");
+let errorSensorPage = document.querySelector("#errorSensorPage");
+let temperatureGraphic = document.querySelector("#temperatureGraphic");
+let humidityGraphic = document.querySelector("#humidityGraphic");
+let websocket;
+let websocket2;
 
 const LIGHT_ICON = "light";
 const DARK_ICON = "darkImage";
@@ -32,8 +42,7 @@ theme_button.addEventListener("click", () => {
       body.classList.remove("dark");
       theme_image.setAttribute("src", ROOT_IMG + DARK_ICON + ".png");
       browser.setAttribute("content", WHITE);
-    } 
-    else {
+    } else {
       dark_mode = true;
       body.classList.add("dark");
       theme_image.setAttribute("src", ROOT_IMG + LIGHT_ICON + ".png");
@@ -63,14 +72,16 @@ let intervalText = setInterval(() => {
 temperatureSectionButton.addEventListener("click", () => {
   temperatureSectionButton.classList.add("optionSelected");
   motionSection.classList.remove("optionSelected");
+  sensorTHpage.classList.remove("hidden");
+  sensorPIRpage.classList.add("hidden");
 });
 
 motionSection.addEventListener("click", () => {
   motionSection.classList.add("optionSelected");
   temperatureSectionButton.classList.remove("optionSelected");
-
+  sensorTHpage.classList.add("hidden");
+  sensorPIRpage.classList.remove("hidden");
 });
-
 
 document.querySelector("#es").addEventListener("click", () => {
   setLanguage("es");
@@ -81,13 +92,25 @@ document.querySelector("#en").addEventListener("click", () => {
 });
 
 testButton.addEventListener("click", () => {
+  updateSensors();
   testSensorsModal.classList.remove("hidden");
+});
+
+function closeWebsocket() {
+  websocket.close();
+  websocket2.close();
+}
+
+
+tryButton.addEventListener("click", () => {
+  updateSensors();
 });
 
 closeModalTest.addEventListener("click", () => {
   testModal.classList.add("hiddenAnimation");
   testSensorsModal.classList.add("hiddenBack");
-
+  closeWebsocket();
+  
   setTimeout(() => {
     testSensorsModal.classList.remove("hiddenBack");
     testSensorsModal.classList.add("hidden");
@@ -96,18 +119,89 @@ closeModalTest.addEventListener("click", () => {
 });
 
 function setLanguage(language) {
-    display1.classList.add("notShowing");
+  display1.classList.add("notShowing");
 
-    setTimeout(() => {
-      secondDisplay();
-    }, 500);
-
+  setTimeout(() => {
+    secondDisplay();
+  }, 500);
 }
 
 function secondDisplay() {
-  display1.classList.add("hidden")
+  display1.classList.add("hidden");
   display2.classList.remove("hidden");
   next.classList.remove("hidden");
 }
 
+function updateSensors() {
+  runWebSocket();
+}
 
+function showLoading() {
+  loadingPage.classList.remove("hidden");
+  errorSensorPage.classList.add("hidden");
+  sensorsGraphics.forEach((graphic) => {
+    graphic.classList.add("hidden");
+  });
+}
+
+function showSensorsGraphics() {
+  sensorsGraphics.forEach((graphic) => {
+    graphic.classList.remove("hidden");
+  });
+  loadingPage.classList.add("hidden");
+  errorSensorPage.classList.add("hidden");
+}
+
+function showError(error) {
+  sensorsGraphics.forEach((graphic) => {
+    graphic.classList.add("hidden");
+  });
+  loadingPage.classList.add("hidden");
+  errorSensorPage.classList.remove("hidden");
+  document.querySelector("#showErrorSensor").innerText = error;
+}
+
+function runWebSocket() {
+  
+  showLoading();
+
+  websocket = new WebSocket("ws://" + location.hostname + ":81/", [
+    "arduino",
+  ]);
+
+  websocket2 = new WebSocket("ws://" + location.hostname + ":82/", [
+    "arduino",
+  ]);
+
+  websocket.onopen = () => {
+    showSensorsGraphics();
+  };
+
+  websocket.onerror = () => {
+    showError("Servidor no disponible");
+  };
+  websocket.onmessage = (data) => {
+    refreshSensorTH(data.data);
+  };
+
+  websocket2.onmessage = () => {
+   console.log("Movimiento detectado");
+  };
+
+  websocket2.onerror = () => {
+    // Show error
+  };
+}
+
+function refreshSensorTH(response) {
+  let responseJson = JSON.parse(response);
+
+  if (responseJson.error != undefined) {
+    showError(responseJson.error);
+  }
+  else {
+    showSensorsGraphics();
+    temperatureGraphic.style = "--angule: " + (parseInt(responseJson.tempCelcius) * 3.6)  + "deg; --text: '" + responseJson.tempCelcius + " C° " + responseJson.tempFahrenheit + " F'";
+    humidityGraphic.style = "--angule: " + (parseInt(responseJson.humidity) * 1.8)  + "deg; --text: '" + responseJson.humidity + " %'";
+  }
+}

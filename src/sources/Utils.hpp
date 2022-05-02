@@ -43,3 +43,4 @@ int dBmtoPercentage(int dBm)
 
   return quality;
 }
+
