@@ -65,69 +65,13 @@
         </div>
       </div>
       <div id="networks" class="third-element">
-        <div>
-          <ul>
-            <li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li>            <li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li>            <li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li>            <li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li>            <li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li>            <li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li>            <li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li>
-            <li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li><li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li><li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li><li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li><li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li><li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li><li>
-              <img src="file/img/wifi1.png"> 
-              <p>Adamo 123</p>
-              <img class="lock" src="file/img/lock.png">
-            </li>
+         <div>
+          <ul id="networksList">
+
           </ul>
         </div>
         <p id="refresh"><img src="file/img/refresh.png"> Refrescar</p>
+        <!-- <p id="addNetwork"><img src="file/img/add.png"> Añadir red manualmente</p> -->
       </div>
 
     </div>
@@ -176,6 +120,26 @@
         </div>
       </div>
     </div>
+
+    <div id="wifiPasswordModalBack" class=" backModal">
+
+      <!-- style="--messageErrorWifi: 'Hola'" -->
+
+      <div id="wifiPasswordModal" class="modal">
+        <div id="closeWiFiModal" class="close">
+          ×
+        </div>
+        <p id="titleWifiWithPassword" class="title">SSID Name</p>
+        <form id="formWifi">
+          <div id="divPassword">
+            <input suggested="new-password" minlength="8" id="passwordWifi" name="password" type="password" placeholder="Contraseña (Mínimo 8 carácteres)">
+            <img id="showHiddenPassword" class="hiddenPassword" src="file/img/passwordHidden.png">
+          </div>
+          <input id="connectWifiButton" disabled type="submit" value="Conectar">  
+        </form>
+      </div>
+    </div>
+
 
     <div id="theme-button">
       <img id="theme" src="file/img/darkImage.png"/>

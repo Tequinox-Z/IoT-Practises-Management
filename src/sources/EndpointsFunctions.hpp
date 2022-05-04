@@ -1,9 +1,36 @@
 #include <ESP8266HTTPClient.h>
 #include <WiFiClient.h>
 #include <string>
+#include "user_interface.h"
 
 HTTPClient http;
 WiFiClient client;
+
+void connectWifi() { 
+  DynamicJsonDocument doc(1024);
+  deserializeJson(doc, s.arg("plain").c_str());
+  
+  String ssid = doc["ssid"];
+  String password = doc["password"]; 
+  
+  if (password.length() == 0) {
+    WiFi.begin(ssid);
+  }
+  else {
+    WiFi.begin(ssid, password);
+  }
+
+  delay(3000);
+  // String s = wifi_station_get_connect_status();
+  // Serial.printf();
+  
+
+  // if () {
+
+  // }
+
+  // s.send()
+}
 
 void scanWifi()
 {
@@ -13,7 +40,9 @@ void scanWifi()
   for (int i = 0; i < networksFound; i++)
   {
     jsonAPs = jsonAPs + "{\"signal\":\"" + dBmtoPercentage(WiFi.RSSI(i)) + "\",";
-    jsonAPs = jsonAPs + "\"ssid\":\"" + WiFi.SSID(i) + "\"},";
+    jsonAPs = jsonAPs + "\"ssid\":\"" + WiFi.SSID(i) + "\",";
+    jsonAPs = jsonAPs + "\"encryptionType\":\"" + convertIntToTypeEncrypt(WiFi.encryptionType(i)) + "\"";
+    jsonAPs = jsonAPs + "},";
   }
 
   if (networksFound != 0)

@@ -23,7 +23,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 10;
+    z-index: 100;
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -320,10 +320,13 @@ html {
         align-items: center;
     }
 
-
-
+    #wifiPasswordModal {
+        max-width: 400px;
+    }
 
 }
+
+
 
 @media (max-width: 600px) {
     .sensorData {
@@ -336,6 +339,10 @@ html {
 
     #humidityGraphic {
         top: 47px;
+    }
+
+    #connectWifiButton {
+        right: unset !important;
     }
 }
 
@@ -608,10 +615,21 @@ html {
     height: 250px;
 }
 
-#loadingPage {
-    position: relative;
-    top: 30px;
+.li {
+    z-index: 2;
 }
+
+.childLi {
+    z-index: 1;
+}
+
+#loadingNetworks {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
 
 #sensorPIRpage {
     align-items: center;
@@ -716,6 +734,75 @@ html {
     position: absolute;
     right: 20px;
     width: 16px !important;
+}
+
+
+
+
+#addNetwork img {
+    width: 13px;
+    filter: contrast(0.4);
+}
+
+#addNetwork {
+    top: 27px !important;
+    transition: 0.4s;
+    position: relative;
+}
+
+#addNetwork:hover {
+    padding-right: 10px;
+}
+
+#addNetwork:hover img {
+    transform: scale(1.2);
+}
+
+
+#titleWifiWithPassword {
+    left: 27px !important;
+}
+
+#formWifi  {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#divPassword > img {
+    filter: contrast(0.2);
+    position: relative;
+    bottom: 1px;
+}
+
+#passwordWifi {
+    width: 71%;
+    height: 34px;
+    padding-left: 12px;
+    top: -2px;
+    position: relative;
+    border: none;
+    background-color: #88888833;
+}
+
+#passwordWifi:focus-visible {
+    outline: none !important;
+}
+
+#divPassword {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#divPassword > img {
+    width: 20px;
+    position: relative;
+    left: 3.5%;
 }
 
 #refresh img {
@@ -871,11 +958,6 @@ html {
     line-height: 6rem;
 }
 
-.wire {
-
-}
-
-
 .circular-graphic::after {
     content: "";
     width: 8rem;
@@ -901,13 +983,13 @@ html {
     top: 24px;
 }
 
-.page > .title {
+.title {
     position: absolute;
     top: 35px;
     left: 30px;
 }
 
-.page > .subtitle {
+.subtitle {
     opacity: 0.5;
     position: absolute;
     top: 55px;
@@ -915,10 +997,39 @@ html {
     font-size: 13px;
 }
 
+
+
+#connectWifiButton {
+    width: 100px;
+    height: 27px;
+    border: none;
+    bottom: 27px;
+    position: absolute;
+    background-color: #80808033;
+    right: 9%;
+}
+
 .dark .circular-graphic::before {
     background-color: rgb(34 34 34);
 }
 
+#wifiPasswordModal {
+    height: 190px;
+    flex-direction: column;
+}
+
+#wifiPasswordModal::after {
+    content: var(--messageErrorWifi);
+    font-size: 13px;
+    color: white;
+    width: 100%;
+    height: 26px;
+    bottom: -28px;
+    position: absolute;
+    background-color: red;
+    text-align: center;
+    padding-top: 8px;
+}
 
 .dark .circular-graphic::after {
     background: linear-gradient(transparent 50%, rgb(34 34 34) 50%);

@@ -5,7 +5,16 @@ let dark_mode = false;
 let browser = document.querySelector("#theme-browser");
 let theme_button = document.querySelector("#theme-button");
 let theme_image = document.querySelector("#theme");
-let step = 1;
+let listOfNetworks = document.querySelector("#networksList");
+let passwordWifiInput = document.querySelector("#passwordWifi");
+let submitButton = document.querySelector("#connectWifiButton");
+
+
+let wifiPasswordModalBack = document.querySelector("#wifiPasswordModalBack");
+let wifiPasswordModal = document.querySelector("#wifiPasswordModal");
+let closeWifiModal = document.querySelector("#closeWiFiModal");
+
+let ssidSelected;
 
 let display1 = document.querySelector("#first-display");
 let display2 = document.querySelector("#second-display");
@@ -137,8 +146,73 @@ function secondDisplay() {
   display2.classList.remove("hidden");
 }
 
+document.querySelector("#refresh").addEventListener("click", refreshNetworks);
+
+function refreshNetworks() {
+
+  listOfNetworks.innerHTML = '<div class="loading" id="loadingNetworks"><img src="file/img/loading.gif"></div>';
+
+  fetch("network", {method: "GET"})
+  .then((data) => {
+    data.json().then((json) => {
+      let networksSorted = json.networks.sort(compareSignal);
+
+      listOfNetworks.innerHTML = '';
+
+      networksSorted.forEach((network) => {
+
+        let li = document.createElement("li");
+        let img = document.createElement("img");
+
+        if (network.signal > 70) {
+          img.src = "file/img/wifi100.png";
+        } 
+        else if (network.signal > 40) {
+          img.src = "file/img/wifi80.png";
+        }
+        else {
+          img.src = "file/img/wifi0.png";
+        }
+
+        li.appendChild(img);
+
+        let ssidName = document.createElement("p");
+        ssidName.innerText = network.ssid;
+
+        li.appendChild(ssidName);
+        
+        if (network.encryptionType != "open") {        
+          let lock = document.createElement("img");
+
+          lock.classList.add("lock");
+          lock.src = "file/img/lock.png";
+
+          li.appendChild(lock);
+        }
+
+        listOfNetworks.appendChild(li);
+
+      });
+    });
+  });
+}
+
+
+function compareSignal(a, b) {
+  if (parseInt(b.signal) < parseInt(a.signal)) {
+    return -1;
+  }
+  if (parseInt(b.signal) > parseInt(a.signal)) {
+    return 1;
+  }
+  return 0;
+}
+
+
 function thirdDisplay() {
   display2.classList.add("notShowing");
+
+  refreshNetworks();
 
   setTimeout(() => {
     display2.classList.add("hidden");
@@ -232,3 +306,101 @@ function refreshSensorTH(response) {
 document.querySelector("#next2").addEventListener("click", () => {
   thirdDisplay();
 });
+
+
+listOfNetworks.addEventListener("click", (event) => {
+  let target = event.target;
+  
+  if (target.matches("li > *")) {
+    target = target.parentNode;
+  }
+  else if (!target.matches("li")) {
+    return;
+  }
+
+  ssidSelected = target.querySelector("p").innerText;
+
+  if (target.querySelectorAll("img").length == 1) {
+    password = "";
+    // ConnectWithoutPassword
+  }
+  else {
+    connectWithPassword();
+  }
+});
+
+
+function connectWithPassword() {
+  wifiPasswordModalBack.classList.remove("hidden");
+  wifiPasswordModal.querySelector("#titleWifiWithPassword").innerText = ssidSelected;
+}
+
+closeWifiModal.addEventListener("click", () => {
+  wifiPasswordModal.classList.add("hiddenAnimation");
+  wifiPasswordModalBack.classList.add("hiddenBack");
+  
+  setTimeout(() => {
+    wifiPasswordModalBack.classList.remove("hiddenBack");
+    wifiPasswordModalBack.classList.add("hidden");
+    wifiPasswordModal.classList.remove("hiddenAnimation");
+  }, 300);
+});
+
+document.querySelector("#showHiddenPassword").addEventListener("click", (event) => {
+  if (passwordWifiInput.type == "password") {
+    passwordWifiInput.type = "text";
+    event.target.src = "file/img/passwordView.png";
+  }
+  else {
+    passwordWifiInput.type = "password";
+    event.target.src = "file/img/passwordHidden.png";
+  }
+});
+
+document.querySelector("#formWifi").addEventListener("submit", (event) => {
+  event.preventDefault();
+});
+
+passwordWifiInput.addEventListener("keyup", (event) => {
+  if (event.target.value.length > 7) {
+    submitButton.removeAttribute("disabled");
+  }
+  else {
+    submitButton.setAttribute("disabled", "");
+  }
+});
+
+
+submitButton.addEventListener("click", () => {
+  submitButton.setAttribute("disabled", "");
+
+  let result = connectWithSSIDandPassword(ssidSelected, passwordWifiInput.value.trim());
+
+  // if (result.error != undefined) {
+  //   // pasar al final
+  // } 
+  // else {
+  //   // Mostrar error
+  // }
+});
+
+
+function connectWithSSIDandPassword(ssid, password) {
+  fetch("/connectWifi", {
+    method: "POST",
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      ssid: ssid,
+      password: password
+    })
+  })
+  .then((data) => {
+    console.log(data);
+    data.json().then((json) => {
+      
+    });
+  })
+}

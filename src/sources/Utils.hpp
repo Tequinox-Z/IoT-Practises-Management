@@ -8,8 +8,32 @@ void setupAP(char* ssid = SSID_AP) {
   dnsServerAP.start(DNS_PORT, "*", apIP);
 }
 
+
 void loopAP() {
   dnsServerAP.processNextRequest();
+}
+
+String convertIntToTypeEncrypt(int wifiEncryp) {
+  String encrypt = "";
+
+  switch (wifiEncryp) {
+    case ENC_TYPE_WEP:
+      encrypt = "WEP";
+      break;
+    case ENC_TYPE_TKIP:
+      encrypt = "WPA/PSK";
+      break;
+    case ENC_TYPE_CCMP:
+      encrypt = "WPA2/PSK";
+      break;
+    case ENC_TYPE_NONE:
+      encrypt = "open";
+      break;
+    case ENC_TYPE_AUTO:
+      encrypt = "WPA/WPA2/PSK";
+      break;
+  }
+  return encrypt;
 }
 
 void ConnectWiFi_STA(bool useStaticIP = false, char* ssid = "", char* password = "")

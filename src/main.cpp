@@ -18,13 +18,16 @@ DHT dht(TEMPERATURE_PIN, DHT11);
 #include "sources/Server.hpp"
 
 boolean getCredentials = false;
-  
+
 void setup() {
+
+  Serial.begin(9600);
+
   digitalWrite(LED_BUILTIN, HIGH); 
   dht.begin();
 
   if (getCredentials) {
-    //ConnectWiFi_STA("test", "test");
+
   }
   else {
     if (!SPIFFS.begin()) {
@@ -36,6 +39,7 @@ void setup() {
   }
 
   InitServer();
+  //WiFi.begin("Telecable-TdHz", "Rtqbt8rnbgmf5");
 }
 
 void loop() {
