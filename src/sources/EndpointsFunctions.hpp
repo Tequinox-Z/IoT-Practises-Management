@@ -6,30 +6,61 @@
 HTTPClient http;
 WiFiClient client;
 
-void connectWifi() { 
+void connectWifi()
+{
   DynamicJsonDocument doc(1024);
   deserializeJson(doc, s.arg("plain").c_str());
-  
+
   String ssid = doc["ssid"];
-  String password = doc["password"]; 
-  
-  if (password.length() == 0) {
-    WiFi.begin(ssid);
+  String password = doc["password"];
+
+  if (ssid.length() == 0)
+  {
+    s.send(400, "application/json", "{\"status\":\"El SSID no puede estar vacío\"}");
   }
-  else {
-    WiFi.begin(ssid, password);
+  else
+  {
+    if (password.length() == 0)
+    {
+      WiFi.begin(ssid);
+    }
+    else
+    {
+      WiFi.begin(ssid, password);
+    }
+
+    delay(4000);
+
+    if (WiFi.status() != WL_CONNECTED)
+    {
+      String status;
+
+      switch (wifi_station_get_connect_status())
+      {
+      case 1:
+        status = "Conectando";
+        break;
+      case 2:
+        status = "Contraseña incorrecta";
+        break;
+      case 3:
+        status = "AP no encontrado";
+        break;
+      case 4:
+        status = "Fallo al conectar";
+        break;
+      case 5:
+        status = "Error al obtener dirección IP";
+        break;
+      }
+
+      s.send(409, "application/json", "{\"status\":\"" + status + "\"}");
+    }
+    else
+    {
+      s.send(201, "application/json", "{}");
+    }
   }
-
-  delay(3000);
-  // String s = wifi_station_get_connect_status();
-  // Serial.printf();
-  
-
-  // if () {
-
-  // }
-
-  // s.send()
 }
 
 void scanWifi()
@@ -55,7 +86,8 @@ void scanWifi()
   s.send(200, "application/json", jsonAPs);
 }
 
-boolean checkMotion() {
+boolean checkMotion()
+{
   return digitalRead(PIR_PIN) == HIGH;
 }
 
@@ -135,21 +167,26 @@ void InitWebSockets()
   webSocketMotion.begin();
 }
 
-void broadcastSensors() {
+void broadcastSensors()
+{
   float humidity = dht.readHumidity();
   float celsius = dht.readTemperature();
   float fahrenheit = dht.readTemperature(true);
-  
-  if (isnan(humidity) || isnan(celsius) || isnan(fahrenheit)) {
+
+  if (isnan(humidity) || isnan(celsius) || isnan(fahrenheit))
+  {
     webSocket.broadcastTXT("{\"error\":\"Sensor desconectado\"}");
-  } 
-  else {
+  }
+  else
+  {
     webSocket.broadcastTXT(getTemperatureAndHumidityJson(humidity, celsius, fahrenheit).c_str());
   }
 }
 
-void checkMotionWebSocket() {
-  if (checkMotion()) {
+void checkMotionWebSocket()
+{
+  if (checkMotion())
+  {
     webSocketMotion.broadcastTXT("");
   }
 }
