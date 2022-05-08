@@ -246,9 +246,15 @@ html {
     align-items: center;
 }
 
-#second-display h4 {
+#second-display h4, #four-display h4 {
+    font-weight: 300;
     font-size: 17px;
     margin-bottom: 7px;
+}
+
+#textFinish p {
+    opacity: 0.7;
+    margin-top: 10px;
 }
 
 #second-display p {
@@ -327,8 +333,52 @@ html {
 }
 
 
+#showHiddenPassword {
+    right: 20px !important;
+    left: unset !important;
+    position: absolute !important;
+    bottom: unset !important;
+}
+
+
+#passwordWifi {
+    left: -7px;
+}
+
+.dark #finishGif {
+    filter: hue-rotate(203deg) invert(1);
+}
+
+#finishButton {
+    width: 100px;
+    height: 27px;
+    border: none;
+    position: relative;
+    top: 15px;
+    background-color: #333333;
+    color: white;
+}
 
 @media (max-width: 600px) {
+
+    #showHiddenPassword {
+        position: absolute;
+        top: 46%;
+        right: 14px !important;
+        left: unset;
+    }
+
+    #passwordWifi {
+        left: -10px;
+    }
+
+    #sendData {
+        right: unset !important;
+    }
+
+    #showHiddenPasswordUser {    
+        right: 11px !important;
+    }
     .sensorData {
         top: 0px !important;
     }
@@ -484,6 +534,7 @@ html {
 #test {
     position: relative;
     left: 20px;
+    border: none;
     background-color: #333333;
     top: 27px;
     color: white;
@@ -726,6 +777,10 @@ html {
     list-style: none;
 }
 
+#loadingReboot {
+    padding-right: 17px;
+}
+
  li:hover .lock {
     padding-right: 10px;
 }
@@ -776,7 +831,7 @@ html {
     bottom: 1px;
 }
 
-#passwordWifi {
+#passwordWifi, #userInput, #passwordInput {
     width: 71%;
     height: 34px;
     padding-left: 12px;
@@ -786,17 +841,56 @@ html {
     background-color: #88888833;
 }
 
-#passwordWifi:focus-visible {
+#formUser {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+#userAndPasswordModal {
+    height: 237px;
+    width: 339px;
+}
+
+#passwordWifi:focus-visible, #passwordInput:focus-visible, #userInput:focus-visible {
     outline: none !important;
 }
 
 #divPassword {
     display: flex;
     width: 100%;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
     align-items: center;
+}
+
+
+
+#showHiddenPasswordUser {
+    position: absolute !important;
+    bottom: 37% !important;
+    right: 25px;
+    left: unset !important;
+}
+
+#sendData {
+    position: absolute;
+    bottom: 24px;
+    width: 130px;
+    height: 27px;
+    border: none;
+    background-color: #80808033;
+    right: 9%;
+}
+
+#passwordInput {
+    top: 7px;
 }
 
 #divPassword > img {
@@ -867,13 +961,110 @@ html {
     flex-wrap: nowrap;
 }
 
-#third-display {
+#reboot-display > div {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+    align-content: center;
+    flex-direction: row;
+}
+
+
+.dark #reboot-display {
+    background-color: black;
+    color: white;
+}
+
+ #reboot-display {
+    animation-name: desvanecimientoRevertido;
+    animation-duration: 1s;
+
+    display: flex;
+    flex-wrap: nowrap;
+    z-index: 10;
+
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-direction: column;
+}
+
+#third-display, #four-display, #reboot-display {
     display: flex;
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+#finishGif {
+    width: 85%;
+    text-align: center;
+}
+
+#sendData:disabled {
+    color: grey !important;
+}
+
+@media (min-width: 680px) and (max-width: 900px) {
+    #textFinish {
+        padding-left: 10% !important;
+    }
+}
+@media (max-width: 680px) {
+    #four-display {
+        display: flex;
+        flex-direction: column-reverse !important;
+        justify-content: center !important;
+        align-items: center !important;
+        align-content: center !important;
+        flex-wrap: nowrap !important;
+    }
+
+    #textFinish {
+        width: 80% !important;
+        text-align: justify;
+    }
+
+    #textFinish h4 {
+        left: unset !important;
+    }
+
+    #finishGif {
+        max-width: 400px;
+
+    }
+    #textFinish {
+        padding-left: unset !important;
+    }
+}
+
+#textFinish > h4 {
+    position: relative;
+    left: -20px;
+}
+
+#finishImg {
+    text-align: center;
+}
+
+#textFinish {
+    width: 400px;
+    padding-left: 5%;
+    text-align: justify;
+}
+
+#four-display {
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
 }
 
 .third-element {
@@ -1121,6 +1312,20 @@ html {
 
     100% {
         opacity: 0;
+    }
+}
+
+@keyframes desvanecimientoRevertido {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
     }
 }
 

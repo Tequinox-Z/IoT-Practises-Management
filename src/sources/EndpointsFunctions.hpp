@@ -3,65 +3,38 @@
 #include <string>
 #include "user_interface.h"
 
-HTTPClient http;
-WiFiClient client;
-
-void connectWifi()
+void configure()
 {
+  String response = s.arg("plain").c_str();
+  Serial.println("Response: " + response);
+
+  if (response.length() > 1024) {
+    s.send(400, "application/json",  "{\"status\":\"Tamaño máximo del archivo excedido (1024 caracteres)\"}");
+  }
+
   DynamicJsonDocument doc(1024);
-  deserializeJson(doc, s.arg("plain").c_str());
+  deserializeJson(doc, response);
 
   String ssid = doc["ssid"];
   String password = doc["password"];
+  String user = doc["user"];
+  String userPsk = doc["passwordUser"];
 
-  if (ssid.length() == 0)
+  if (ssid.length() == 0 || user.length() == 0 || userPsk.length() == 0)
   {
     s.send(400, "application/json", "{\"status\":\"El SSID no puede estar vacío\"}");
   }
-  else
-  {
-    if (password.length() == 0)
-    {
-      WiFi.begin(ssid);
-    }
-    else
-    {
-      WiFi.begin(ssid, password);
-    }
+  else {
+    File configFile = SPIFFS.open("/config.json", "w");
+    configFile.print(response.c_str());
 
-    delay(4000);
+    configFile.close();
+        
+    s.send(201, "application/json");
 
-    if (WiFi.status() != WL_CONNECTED)
-    {
-      String status;
-
-      switch (wifi_station_get_connect_status())
-      {
-      case 1:
-        status = "Conectando";
-        break;
-      case 2:
-        status = "Contraseña incorrecta";
-        break;
-      case 3:
-        status = "AP no encontrado";
-        break;
-      case 4:
-        status = "Fallo al conectar";
-        break;
-      case 5:
-        status = "Error al obtener dirección IP";
-        break;
-      }
-
-      s.send(409, "application/json", "{\"status\":\"" + status + "\"}");
-    }
-    else
-    {
-      s.send(201, "application/json", "{}");
-    }
+    ESP.reset();
   }
-}
+  }
 
 void scanWifi()
 {
@@ -103,10 +76,11 @@ void checkPIRsensor()
       delay(100);
     }
 
-    String se = "http://192.168.1.134:8080/school";
-
-    http.begin(client, se.c_str());
-    http.addHeader("Authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJVc2VyIERldGFpbHMiLCJpc3MiOiJQcmFjdGlzZXMvTWFuYWdlbWVudCIsImV4cCI6MTcwODMwOTgyMCwiaWF0IjoxNjQ4MzA5ODIwLCJ1c2VybmFtZSI6IjQ4MTI0NTM4TSJ9.5T-lJt2r4mDFmu0r-ibs_ydwM96F94Zfu9Bk8RHN308");
+    String url = URL_P_M + MOTION_ENDPOINT;
+    String token = configuration["token"];
+    
+    http.begin(client, url.c_str());
+    http.addHeader("Authorization", "Bearer " + token);
     http.addHeader("Content-Type", "application/json");
     http.POST("{}");
   }
@@ -180,6 +154,26 @@ void broadcastSensors()
   else
   {
     webSocket.broadcastTXT(getTemperatureAndHumidityJson(humidity, celsius, fahrenheit).c_str());
+  }
+}
+
+void updateSensor() {
+  float humidity = dht.readHumidity();
+  float celsius = dht.readTemperature();
+  float fahrenheit = dht.readTemperature(true);
+
+  if (isnan(humidity) || isnan(celsius) || isnan(fahrenheit))
+  {
+    Serial.println("Sensor desconectado");
+  }
+  else {
+    String url = URL_P_M + TEMP_HUMIDITY_ENDPOINT;
+    String token = configuration["token"];
+    
+    http.begin(client, url.c_str());
+    http.addHeader("Authorization", "Bearer " + token);
+    http.addHeader("Content-Type", "application/json");
+    http.PUT(getTemperatureAndHumidityJson(humidity, celsius, fahrenheit).c_str());
   }
 }
 

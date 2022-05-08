@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="file/css/styles.css" />
   </head>
   <body>
-    <div id="intro-transition">
+    <div id="intro-transition" class="            ">
       <div id="intro">
         <img src="file/img/logo.png" />
         <div id="inline-div">
@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div id="center-flex">
+    <div id="center-flex" class="                 ">
       <div id="first-display">
         <h3 id="idioma-text-es" class="showUp over">Seleccione su lenguaje</h3>
         <h3 id="idioma-text-en" class="hideDown over">Select your language</h3>
@@ -47,7 +47,7 @@
           digital           
           <span class="wire" id="red">D6</span>
         </p>
-        <a id="test">Testear sensores</a>
+        <input type="button" id="test" value="Testear sensores">
       </div>
       <div id="div-next">
         <img id="next2" class="row" src="file/img/row.png"/>
@@ -74,6 +74,59 @@
         <!-- <p id="addNetwork"><img src="file/img/add.png"> Añadir red manualmente</p> -->
       </div>
 
+    </div>
+
+    <div id="four-display" class="  hidden ">
+
+      <div id="textFinish">
+        <h4>Un último paso ...</h4>
+        <p>        
+          A continuación, introduzca sus credenciales de acceso.
+          una vez hecho esto, el dispositivo se reiniciará, se conectará a la red 
+          Wi-Fi seleccionada y comenzará a proorcionar información.
+        </p>
+        <p>
+          En caso de que haya algún error en las credenciales el dispositivo 
+          volverá a arrancar el asistente mostrando el error producido.
+        </p>
+        <input id="finishButton" value="Finalizar" type="button">
+
+      </div>
+
+      <div id="finishImg">
+        <img src="file/img/finish.gif" id="finishGif">
+      </div>
+
+
+      <div id="userPasswordModalBack" class="hidden backModal">
+        <div id="userAndPasswordModal" class="modal">
+          <div id="closeUserModal" class="close">
+            ×
+          </div>
+          <p class="title">Introduzca su usuario y contraseña</p>
+         
+          <form id="formUser">
+            <div id="divPassword">
+                <input id="userInput" required name="user" type="text" class="noEmpty" placeholder="Usuario">
+                <input id="passwordInput" required name="password" type="password" class="noEmpty" placeholder="Contraseña">
+                <img id="showHiddenPasswordUser" class="hiddenPassword" class="noEmpty" src="file/img/passwordHidden.png">
+              <!-- Ocultar automáticamente falta -->
+  
+            </div>
+            <input id="sendData" disabled type="submit" value="Guardar y reiniciar">
+          </form>
+    
+        </div>
+      </div>
+    </div>
+
+    <div id="reboot-display" class="hidden">
+      <div>
+        <div class="loading">
+          <img id="loadingReboot" src="file/img/loading.gif">
+        </div>
+        <p id="restartMsg">Reiniciando</p>
+      </div>
     </div>
 
     <div id="testSensorsModal" class="hidden backModal">
@@ -121,7 +174,7 @@
       </div>
     </div>
 
-    <div id="wifiPasswordModalBack" class=" backModal">
+    <div id="wifiPasswordModalBack" class="hidden backModal">
 
       <!-- style="--messageErrorWifi: 'Hola'" -->
 
@@ -139,6 +192,7 @@
         </form>
       </div>
     </div>
+  </div>
 
 
     <div id="theme-button">

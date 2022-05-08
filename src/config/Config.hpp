@@ -32,3 +32,19 @@
 
   const int RSSI_MAX =-50;
   const int RSSI_MIN =-100;
+
+
+/* Tiempo de espera de conexión Wi-Fi  */
+
+  const long TIME_WAIT_WIFI = 10000;
+
+/* Tiempo de actualización de temperatura y humedad */
+
+  const int SENSOR_UPDATE = 10000;
+
+/* URL */
+
+  const String URL_P_M = "http://192.168.1.134:8080/";
+  const String LOGIN = "auth/login";
+  const String MOTION_ENDPOINT = "motions";
+  const String TEMP_HUMIDITY_ENDPOINT = "temp-humidity";
