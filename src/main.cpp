@@ -28,8 +28,10 @@ boolean getCredentials;
 void setup()
 {
   Serial.begin(115200);
-  digitalWrite(LED_BUILTIN, HIGH);
   dht.begin();
+
+  pinMode(RESET_PIN, INPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
 
   if (!SPIFFS.begin())
   {
@@ -55,21 +57,35 @@ void setup()
 
     InitWebSockets();
     setupAP();
+    InitServer();
   }
 
   // up
-  InitServer();
 }
 
 void loop()
 {
   if (!getCredentials)
   {
-    if ((millis() - timeMillis) > SENSOR_UPDATE) {
+    if ((millis() - timeMillis) > SENSOR_UPDATE)
+    {
       timeMillis = millis();
       updateSensor();
     }
     checkPIRsensor();
+
+    byte value = digitalRead(RESET_PIN);
+
+    if (value == HIGH)
+    {
+      digitalWrite(LED_BUILTIN, LOW);
+      resetConfig();
+    }
+
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(50);
+    digitalWrite(LED_BUILTIN, LOW);
+    delay(50);
   }
   else
   {
@@ -79,8 +95,6 @@ void loop()
 
     broadcastSensors();
     checkMotionWebSocket();
+    s.handleClient();
   }
-
-  // up
-  s.handleClient();
 }

@@ -11,8 +11,29 @@
     color: white !important;
 }
 
+#options > div:hover .rowOption {
+    right: 0;
+}
+
+.p-padding {
+    padding-left: 3%;
+}
+
+#gitDiv {
+    left: 108px;
+}
+
+#github #gitImg {
+    left: 0 !important;
+}
+
+.text-option {
+    position: absolute;
+    left: 111px;
+}
+
 .dark {
-    background-color: rgb(0, 0, 0);
+    background-color: rgb(0, 0, 0) !important;
 }
 
 #intro {
@@ -118,7 +139,6 @@ html {
     animation-name: showUp;
 }
 
-
 .hidden {
     display: none !important;
 }
@@ -156,7 +176,16 @@ html {
     flex-wrap: nowrap;
 }
 
-#language {
+#configure {
+    padding-left: 7px;
+}
+
+
+#options {
+    max-width: 600px;
+    width: 90%;
+    flex-direction: column-reverse !important;
+    max-width: 600px;
     perspective: 249px;
     display: flex;
     flex-wrap: nowrap;
@@ -167,27 +196,59 @@ html {
     gap: 7%;
     position: relative;
     top: 30px;
-    animation-name: show-language;
+    animation-name: show-options;
     animation-duration: 6.5s;
 }
 
-
-#language > img {
-    height: 100px;
+#options .optionIMG {
+    height: 80px;
     z-index: 0 !important;
-    box-shadow: 1px 1px 10px rgb(70, 70, 70);
     animation-delay: 6s;
     animation-duration: 1.5s;
-    animation-name: intro-language;
+    animation-name: intro-options;
+    position: absolute;
+    left: 10px;
 }
 
-#language > img:hover {
-    transform: scale(1.05);
+.dark .rowOption {
+    filter: invert();
+}
+
+.rowOption {
+    width: 30px;
+    height: unset !important;
+    position: absolute;
+    right: 20px;
+}
+
+#options > div:hover .optionIMG {
+    transform: scale(1.1);
+}
+
+.dark #options > div:hover {
+    background-color: rgb(24, 24, 24);
+}
+
+#options > div {
+    margin-bottom: 5px;
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 120px;
+    position: relative;
 }
 
 #first-display {
     position: relative;
     top: -50px;
+}
+
+.center {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #theme {
@@ -1209,6 +1270,52 @@ html {
     flex-direction: column;
 }
 
+#centerMessage {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.errorMessage {
+    display: flex;
+    width: 270px;
+    height: 50px;
+    box-shadow: 1px 1px 10px grey;
+    padding: 5px;
+    background-color: white;
+    border-left: 2px solid red;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+    flex-wrap: nowrap;
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#error {
+    font-size: 15px;
+    position: relative;
+    left: 50px;
+    text-overflow: ellipsis;
+}
+
+#errorImg {
+    filter: sepia(1) hue-rotate(296deg);
+    width: 30px;
+    position: absolute;
+    left: 14px;
+}
+
+#errorText {
+    position: absolute;
+    font-size: 10px;
+    left: 12px;
+    color: rgb(235, 235, 235);
+}
 #wifiPasswordModal::after {
     content: var(--messageErrorWifi);
     font-size: 13px;
@@ -1229,6 +1336,10 @@ html {
 #motion-detect {
     position: relative !important;
     top: 25px !important;
+}
+
+#connectWifiButton:disabled {
+    color: grey !important;
 }
 
 .hiddenPIR {
@@ -1402,7 +1513,7 @@ html {
 }
 
 
-@keyframes show-language {
+@keyframes show-options {
     0% {
         opacity: 0;
     }
@@ -1418,7 +1529,7 @@ html {
 }
 
 
-@keyframes intro-language {
+@keyframes intro-options {
     0% {
         opacity: 0;
     }

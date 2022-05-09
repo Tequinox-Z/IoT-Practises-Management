@@ -14,6 +14,10 @@
 
   const int PIR_PIN = 5;
 
+/* Pin RESET (Opcional)  */
+
+  const int RESET_PIN = 4;
+
 /* Dirección IP, puerta de enlace, máscara de red */
 
   IPAddress ip(192, 168, 1, 200);

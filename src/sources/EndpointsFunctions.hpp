@@ -82,7 +82,20 @@ void checkPIRsensor()
     http.begin(client, url.c_str());
     http.addHeader("Authorization", "Bearer " + token);
     http.addHeader("Content-Type", "application/json");
-    http.POST("{}");
+    int code = http.POST("{}");
+    
+    
+    if (code == 400) {
+      DynamicJsonDocument error(1024);
+      deserializeJson(error, http.getString());
+      String errorMessage = error["message"];
+      Serial.println(errorMessage);
+      generateError(errorMessage);
+      ESP.reset();
+    }
+    else if(!(code == 200 || code == 201)){
+      Serial.println("Servidor no disponible");
+    }
   }
 }
 

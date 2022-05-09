@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IoT - Tx</title>
+    <title>IoT - Practises Management</title>
     <meta id="theme-browser" name="theme-color" content="#000000" />
     <link rel="stylesheet" href="file/css/styles.css" />
   </head>
   <body>
-    <div id="intro-transition" class="            ">
+    <div id="intro-transition" class="">
       <div id="intro">
         <img src="file/img/logo.png" />
         <div id="inline-div">
@@ -20,13 +20,27 @@
       </div>
     </div>
 
-    <div id="center-flex" class="                 ">
+    <div id="center-flex" class="">
       <div id="first-display">
-        <h3 id="idioma-text-es" class="showUp over">Seleccione su lenguaje</h3>
-        <h3 id="idioma-text-en" class="hideDown over">Select your language</h3>
-        <div id="language">
-          <img id="es" src="file/img/es.jpg" />
-          <img id="en" src="file/img/en.png" />
+        <h3 id="idioma-text-es" class="showUp over">Le damos la bienvenida</h3>
+        <h3 id="idioma-text-en" class="hideDown over">Elija una opción</h3>
+        <div class="center">
+          <div id="options">
+            <div id="github">          
+              <img class="optionIMG" id="gitImg" src="file/img/github.png"/>
+              <div class="text-option p-padding" id="gitDiv">
+                <p>Ver proyecto en GitHub</p>
+              </div>
+              <img class="rowOption" src="file/img/row.png">
+            </div>
+            <div id="configure">
+              <img class="optionIMG" src="file/img/config.png"/>
+              <div class="text-option p-padding">
+                <p>Iniciar configuración</p>
+              </div>
+              <img class="rowOption" src="file/img/row.png">
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -83,7 +97,7 @@
         <p>        
           A continuación, introduzca sus credenciales de acceso.
           una vez hecho esto, el dispositivo se reiniciará, se conectará a la red 
-          Wi-Fi seleccionada y comenzará a proorcionar información.
+          Wi-Fi seleccionada.
         </p>
         <p>
           En caso de que haya algún error en las credenciales el dispositivo 
@@ -175,9 +189,6 @@
     </div>
 
     <div id="wifiPasswordModalBack" class="hidden backModal">
-
-      <!-- style="--messageErrorWifi: 'Hola'" -->
-
       <div id="wifiPasswordModal" class="modal">
         <div id="closeWiFiModal" class="close">
           ×
@@ -193,14 +204,16 @@
       </div>
     </div>
   </div>
-
-
     <div id="theme-button">
       <img id="theme" src="file/img/darkImage.png"/>
     </div>
-
-
-
+    <div id="centerMessage">
+      <div class="errorMessage">
+        <!-- <p id="errorText">Error</p> -->
+        <p id="error">Contraseña incorrecta</p>
+        <img id="errorImg" src="file/img/warning.png">
+      </div>
+    </div>
     <script src="file/js/main.js"></script>
   </body>
 </html>

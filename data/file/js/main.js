@@ -1,4 +1,3 @@
-let textLanguage = document.querySelector("#idioma-text");
 let intro = document.querySelector("#intro-transition");
 let body = document.querySelector("body");
 let dark_mode = false;
@@ -13,7 +12,6 @@ let wifiPasswordModalBack = document.querySelector("#wifiPasswordModalBack");
 let wifiPasswordModal = document.querySelector("#wifiPasswordModal");
 let closeWifiModal = document.querySelector("#closeWiFiModal");
 let timeout;
-const PRACTISES_MANAGEMENT_URL = "https://google.es";
 
 let ssidSelected;
 let password;
@@ -46,12 +44,16 @@ let humidityGraphic = document.querySelector("#humidityGraphic");
 let websocket;
 let websocket2;
 
-const LIGHT_ICON = "light";
-const DARK_ICON = "darkImage";
-const WHITE = "#FFFFFF";
-const DARK = "#000000";
-const ROOT_IMG = "file/img/";
 
+// Constantes
+
+    const LIGHT_ICON = "light";
+    const DARK_ICON = "darkImage";
+    const WHITE = "#FFFFFF";
+    const DARK = "#000000";
+    const ROOT_IMG = "file/img/";
+    const PRACTISES_MANAGEMENT_URL = "https://google.es";
+    const PROYECT_URL = "https://github.com";
 
 
 theme_button.addEventListener("click", () => {
@@ -104,12 +106,16 @@ motionSection.addEventListener("click", () => {
   sensorPIRpage.classList.remove("hidden");
 });
 
-document.querySelector("#es").addEventListener("click", () => {
-  setLanguage("es");
+document.querySelector("#github").addEventListener("click", () => {
+  window.location.href = PROYECT_URL;
 });
 
-document.querySelector("#en").addEventListener("click", () => {
-  setLanguage("en");
+document.querySelector("#configure").addEventListener("click", () => {
+  display1.classList.add("notShowing");
+
+  setTimeout(() => {
+    secondDisplay();
+  }, 500);
 });
 
 testButton.addEventListener("click", () => {
@@ -164,14 +170,6 @@ closeModalTest.addEventListener("click", () => {
     testModal.classList.remove("hiddenAnimation");
   }, 300);
 });
-
-function setLanguage(language) {
-  display1.classList.add("notShowing");
-
-  setTimeout(() => {
-    secondDisplay();
-  }, 500);
-}
 
 function secondDisplay() {
   display1.classList.add("hidden");

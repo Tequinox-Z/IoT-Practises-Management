@@ -1,6 +1,5 @@
 DNSServer dnsServerAP;
 
-
 void setupAP(char *ssid = SSID_AP)
 {
   WiFi.mode(WIFI_AP_STA);
@@ -40,49 +39,49 @@ String convertIntToTypeEncrypt(int wifiEncryp)
   return encrypt;
 }
 
-void generateError(String errorMessage) {
-      File log = SPIFFS.open("/error.json", "w");
-      String error = "{\"error\": \"" + errorMessage + "\"}";
-      log.write(error.c_str());
-      log.close();
+void generateError(String errorMessage)
+{
+  File log = SPIFFS.open("/error.json", "w");
+  String error = "{\"error\": \"" + errorMessage + "\"}";
+  log.write(error.c_str());
+  log.close();
 }
 
-void readConfig() {
-    File configFile = SPIFFS.open("/config.json", "r");
-    deserializeJson(configuration, configFile.readString());
-    configFile.close();
+void readConfig()
+{
+  File configFile = SPIFFS.open("/config.json", "r");
+  deserializeJson(configuration, configFile.readString());
+  configFile.close();
 }
 
 void connectWiFi()
 {
-  
+
   WiFi.mode(WIFI_STA);
 
   String ssid = configuration["ssid"];
   String psk = configuration["password"];
 
-
   WiFi.begin(ssid.c_str(), psk.c_str());
 
   long timeStart = millis();
 
-  while (WiFi.status() != WL_CONNECTED && (millis() - timeStart) < TIME_WAIT_WIFI) {
+  while (WiFi.status() != WL_CONNECTED && (millis() - timeStart) < TIME_WAIT_WIFI)
+  {
     Serial.println("Conectando a red Wi-Fi ...");
   }
 
-    if (WiFi.status() != WL_CONNECTED)
-    {
-      SPIFFS.remove("/config.json");
-
-      generateError("No se pudo establecer conexión con la red Wi-Fi");
-
-      ESP.reset();
-    }
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    SPIFFS.remove("/config.json");
+    generateError("No se pudo establecer conexión con la red Wi-Fi");
+    ESP.reset();
+  }
 }
 
-
-
-void setToken() {
+void setToken()
+{
+  Serial.println("Obteniendo token ...");
 
   http.begin(client, URL_P_M + LOGIN);
   http.addHeader("Content-Type", "application/json");
@@ -94,22 +93,22 @@ void setToken() {
 
   if (httpResponseCode != 200)
   {
-      SPIFFS.remove("/config.json");
+    SPIFFS.remove("/config.json");
 
-      generateError("Credenciales inválidas o servidor no disponible");
+    generateError("Credenciales inválidas o servidor no disponible");
 
-      ESP.reset();
+    ESP.reset();
   }
   else
   {
     String configString;
-    
+
     File configFile = SPIFFS.open("/config.json", "r");
     configString = configFile.readString();
     configFile.close();
 
     configString = configString.substring(0, configString.length() - 1);
-    
+
     DynamicJsonDocument response(1024);
     deserializeJson(response, http.getString());
 
@@ -118,9 +117,19 @@ void setToken() {
     configString = configString + ", \"token\":\"" + token + "\"}";
 
     File configFileWrite = SPIFFS.open("/config.json", "w");
-    configFileWrite.print(configString.c_str());    
+    configFileWrite.print(configString.c_str());
     configFileWrite.close();
   }
+}
+
+void resetConfig()
+{
+  Serial.println("Reestablecimiendo ...");
+
+  SPIFFS.remove("/config.json");
+  SPIFFS.remove("/error.json");
+
+  ESP.reset();
 }
 
 int dBmtoPercentage(int dBm)
