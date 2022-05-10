@@ -91,11 +91,16 @@ void setToken()
 
   int httpResponseCode = http.POST("{\"dni\":\"" + user + "\", \"password\":\"" + pskUser + "\"}");
 
-  if (httpResponseCode != 200)
+  if (!(httpResponseCode == 200 || httpResponseCode == 201))
   {
     SPIFFS.remove("/config.json");
 
-    generateError("Credenciales inválidas o servidor no disponible");
+    if (httpResponseCode == 400) {
+      generateError(http.getString());
+    }
+    else {
+      generateError("Servidor no disponible");
+    }
 
     ESP.reset();
   }

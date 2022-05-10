@@ -44,7 +44,6 @@ let humidityGraphic = document.querySelector("#humidityGraphic");
 let websocket;
 let websocket2;
 
-
 // Constantes
 
     const LIGHT_ICON = "light";
@@ -54,6 +53,22 @@ let websocket2;
     const ROOT_IMG = "file/img/";
     const PRACTISES_MANAGEMENT_URL = "https://google.es";
     const PROYECT_URL = "https://github.com";
+    const TIME_NOTIFICATION = 5000;
+    const DELAY_NOTIFICATION = 5000;
+
+    setTimeout(() => {
+      fetch("error.json", { method: "GET" }).then((data) => {
+        data.json().then((json) => {
+          document.querySelector("#error").innerText = json.error;
+          let message = document.querySelector("#centerMessage");
+          message.classList.remove("hidden");
+  
+          setTimeout(() => {
+            message.classList.add("hidden");
+          }, TIME_NOTIFICATION);
+        })});
+    }, DELAY_NOTIFICATION);
+    
 
 
 theme_button.addEventListener("click", () => {
