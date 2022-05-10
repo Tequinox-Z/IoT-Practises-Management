@@ -19,6 +19,34 @@
     padding-left: 3%;
 }
 
+.dark .errorMessage {
+    box-shadow: none !important;
+    background-color: #202020;
+}
+
+@keyframes notification {
+    0% {
+        width: 0px;
+    }
+    100% {
+        width: 270px;
+    }
+}
+
+.notShowNotification {
+    animation-name: notificationClose !important;
+    animation-duration: 1s !important;
+}
+
+@keyframes notificationClose {
+    0% {
+        width: 270px;
+    }
+    100% {
+        width: 0px;
+    }
+}
+
 #gitDiv {
     left: 108px;
 }
@@ -1280,6 +1308,8 @@ html {
 }
 
 .errorMessage {
+    animation-name: notification;
+    animation-duration: 1s;
     display: flex;
     width: 270px;
     height: 50px;

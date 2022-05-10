@@ -10,6 +10,7 @@
 
 HTTPClient http;
 WiFiClient client;
+String token;
 
 ESP8266WebServer s(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
@@ -44,12 +45,7 @@ void setup()
 
     readConfig();
     connectWiFi();
-
-    if (configuration["token"] == nullptr)
-    {
-      setToken();
-      readConfig();
-    }
+    setToken();
   }
   else
   {
@@ -83,9 +79,9 @@ void loop()
     }
 
     digitalWrite(LED_BUILTIN, HIGH);
-    delay(50);
+    delay(200);
     digitalWrite(LED_BUILTIN, LOW);
-    delay(50);
+    delay(200);
   }
   else
   {

@@ -9,7 +9,7 @@ void configure()
   Serial.println("Response: " + response);
 
   if (response.length() > 1024) {
-    s.send(400, "application/json",  "{\"status\":\"Tamaño máximo del archivo excedido (1024 caracteres)\"}");
+    s.send(400, "application/json",  "{\"status\":\"Tamaño máximo del archivo excedido (1024 caracteres máximo)\"}");
   }
 
   DynamicJsonDocument doc(1024);
@@ -25,13 +25,13 @@ void configure()
     s.send(400, "application/json", "{\"status\":\"El SSID no puede estar vacío\"}");
   }
   else {
+    s.send(201, "application/json");
+    
     File configFile = SPIFFS.open("/config.json", "w");
     configFile.print(response.c_str());
 
     configFile.close();
         
-    s.send(201, "application/json");
-
     ESP.reset();
   }
   }
@@ -77,24 +77,17 @@ void checkPIRsensor()
     }
 
     String url = URL_P_M + MOTION_ENDPOINT;
-    String token = configuration["token"];
     
     http.begin(client, url.c_str());
     http.addHeader("Authorization", "Bearer " + token);
     http.addHeader("Content-Type", "application/json");
     int code = http.POST("{}");
-    
-    
-    if (code == 400) {
-      DynamicJsonDocument error(1024);
-      deserializeJson(error, http.getString());
-      String errorMessage = error["message"];
-      Serial.println(errorMessage);
-      generateError(errorMessage);
-      ESP.reset();
-    }
-    else if(!(code == 200 || code == 201)){
-      Serial.println("Servidor no disponible");
+
+    if(!(code == 200 || code == 201)){
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(100);
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(1000);
     }
   }
 }
@@ -177,16 +170,26 @@ void updateSensor() {
 
   if (isnan(humidity) || isnan(celsius) || isnan(fahrenheit))
   {
-    Serial.println("Sensor desconectado");
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(100);
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(1000);
   }
   else {
     String url = URL_P_M + TEMP_HUMIDITY_ENDPOINT;
-    String token = configuration["token"];
     
     http.begin(client, url.c_str());
     http.addHeader("Authorization", "Bearer " + token);
     http.addHeader("Content-Type", "application/json");
-    http.PUT(getTemperatureAndHumidityJson(humidity, celsius, fahrenheit).c_str());
+    int responseCode = http.PUT(getTemperatureAndHumidityJson(humidity, celsius, fahrenheit).c_str());
+
+    if (responseCode != 200) {
+
+        digitalWrite(LED_BUILTIN, HIGH);
+        delay(100);
+        digitalWrite(LED_BUILTIN, LOW);
+        delay(1000);
+    }
   }
 }
 

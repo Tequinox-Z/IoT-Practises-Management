@@ -74,7 +74,7 @@ void connectWiFi()
   if (WiFi.status() != WL_CONNECTED)
   {
     SPIFFS.remove("/config.json");
-    generateError("No se pudo establecer conexión con la red Wi-Fi");
+    generateError("Contraseña Wi-Fi incorrecta");
     ESP.reset();
   }
 }
@@ -96,7 +96,11 @@ void setToken()
     SPIFFS.remove("/config.json");
 
     if (httpResponseCode == 400) {
-      generateError(http.getString());
+      DynamicJsonDocument responseJSON(1024);
+      deserializeJson(responseJSON, http.getString());
+      String messageError = responseJSON["mensaje"];
+      Serial.println(messageError.c_str());
+      generateError(messageError.c_str());
     }
     else {
       generateError("Servidor no disponible");
@@ -106,24 +110,12 @@ void setToken()
   }
   else
   {
-    String configString;
-
-    File configFile = SPIFFS.open("/config.json", "r");
-    configString = configFile.readString();
-    configFile.close();
-
-    configString = configString.substring(0, configString.length() - 1);
-
     DynamicJsonDocument response(1024);
     deserializeJson(response, http.getString());
 
-    String token = response["jwt_token"];
+    String currentToken = response["jwt_token"];
 
-    configString = configString + ", \"token\":\"" + token + "\"}";
-
-    File configFileWrite = SPIFFS.open("/config.json", "w");
-    configFileWrite.print(configString.c_str());
-    configFileWrite.close();
+    token = currentToken.c_str();
   }
 }
 

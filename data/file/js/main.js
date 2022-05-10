@@ -62,9 +62,12 @@ let websocket2;
           document.querySelector("#error").innerText = json.error;
           let message = document.querySelector("#centerMessage");
           message.classList.remove("hidden");
-  
+
           setTimeout(() => {
-            message.classList.add("hidden");
+            document.querySelector("#messageNotificationError").classList.add("notShowNotification");
+            setTimeout(() => {
+              message.classList.add("hidden");
+            }, 1000)
           }, TIME_NOTIFICATION);
         })});
     }, DELAY_NOTIFICATION);
