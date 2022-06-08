@@ -82,6 +82,8 @@ void connectWiFi()
 void setToken()
 {
   Serial.println("Obteniendo token ...");
+  client.setInsecure();
+  client.connect(URL_P_M, 443);
 
   http.begin(client, URL_P_M + LOGIN);
   http.addHeader("Content-Type", "application/json");
@@ -90,6 +92,9 @@ void setToken()
   String pskUser = configuration["passwordUser"];
 
   int httpResponseCode = http.POST("{\"dni\":\"" + user + "\", \"password\":\"" + pskUser + "\"}");
+
+  Serial.println("Respuesta: ");
+  Serial.println(httpResponseCode);
 
   if (!(httpResponseCode == 200 || httpResponseCode == 201))
   {

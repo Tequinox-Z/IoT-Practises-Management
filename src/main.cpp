@@ -9,8 +9,9 @@
 #include <ESP8266HTTPClient.h>
 
 HTTPClient http;
-WiFiClient client;
+WiFiClientSecure client;
 String token;
+
 
 ESP8266WebServer s(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
@@ -55,6 +56,8 @@ void setup()
     setupAP();
     InitServer();
   }
+
+  
 
   // up
 }

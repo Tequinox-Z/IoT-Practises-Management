@@ -100,24 +100,20 @@ String getTemperatureAndHumidityJson(float humidity, float celsius, float fahren
   result.concat(humidity);
   result += "\",";
 
-  result += "\"tempCelcius\":\"";
+  result += "\"celcius\":\"";
   result.concat(celsius);
   result += "\",";
 
-  result += "\"tempFahrenheit\":\"";
+  result += "\"fahrenheit\":\"";
   result.concat(fahrenheit);
   result += "\",";
 
-  result += "\"heatIndexFahrenheit\":\"";
+  result += "\"heatIndexc\":\"";
   result.concat(dht.computeHeatIndex(fahrenheit, humidity));
   result += "\",";
 
-  result += "\"heatIndexCelsius\":\"";
+  result += "\"heatIndexf\":\"";
   result.concat(dht.computeHeatIndex(celsius, humidity, false));
-  result += "\",";
-
-  result += "\"pin\":\"";
-  result.concat(TEMPERATURE_PIN);
   result += "\"";
 
   result += "}";
@@ -181,7 +177,9 @@ void updateSensor() {
     http.begin(client, url.c_str());
     http.addHeader("Authorization", "Bearer " + token);
     http.addHeader("Content-Type", "application/json");
-    int responseCode = http.PUT(getTemperatureAndHumidityJson(humidity, celsius, fahrenheit).c_str());
+    int responseCode = http.POST(getTemperatureAndHumidityJson(humidity, celsius, fahrenheit).c_str());
+
+    Serial.println(responseCode);
 
     if (responseCode != 200) {
 

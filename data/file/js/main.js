@@ -344,11 +344,11 @@ function refreshSensorTH(response) {
     showSensorsGraphics();
     temperatureGraphic.style =
       "--angule: " +
-      parseInt(responseJson.tempCelcius) * 3.6 +
+      parseInt(responseJson.celcius) * 3.6 +
       "deg; --text: '" +
-      responseJson.tempCelcius +
+      responseJson.celcius +
       " C° " +
-      responseJson.tempFahrenheit +
+      responseJson.fahrenheit +
       " F'";
     humidityGraphic.style =
       "--angule: " +
