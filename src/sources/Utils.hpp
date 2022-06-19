@@ -1,19 +1,31 @@
 DNSServer dnsServerAP;
 
+
+
+// Configura el ap
+
 void setupAP(char *ssid = SSID_AP)
 {
+  // Creamos la wifi
+
   WiFi.mode(WIFI_AP_STA);
   WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
   WiFi.softAP(ssid);
 
+  // Habilitamos un servidor dns
+
   dnsServerAP.start(DNS_PORT, "*", apIP);
 }
+
+// Procesamos las peticiones que se nos pidan
 
 void loopAP()
 {
   dnsServerAP.processNextRequest();
 }
 
+
+// Esta función obtiene el tipo de encriptación de la red 
 String convertIntToTypeEncrypt(int wifiEncryp)
 {
   String encrypt = "";
@@ -39,6 +51,8 @@ String convertIntToTypeEncrypt(int wifiEncryp)
   return encrypt;
 }
 
+// Genera un error que será mostrado en el front
+
 void generateError(String errorMessage)
 {
   File log = SPIFFS.open("/error.json", "w");
@@ -47,6 +61,7 @@ void generateError(String errorMessage)
   log.close();
 }
 
+// Carga la configuración del fichero
 void readConfig()
 {
   File configFile = SPIFFS.open("/config.json", "r");
@@ -54,15 +69,24 @@ void readConfig()
   configFile.close();
 }
 
+// Conecta a una red Wi-Fi
 void connectWiFi()
 {
 
+  // Habilitamos el modo estación
+
   WiFi.mode(WIFI_STA);
+
+  // Establecemos los datos de la configuración
 
   String ssid = configuration["ssid"];
   String psk = configuration["password"];
 
+  // Iniciamos la configuración
+
   WiFi.begin(ssid.c_str(), psk.c_str());
+
+  // Comrpobamos si nos podemos conectar
 
   long timeStart = millis();
 
@@ -73,34 +97,53 @@ void connectWiFi()
 
   if (WiFi.status() != WL_CONNECTED)
   {
+    // En caso de error generamos el error
+
     SPIFFS.remove("/config.json");
-    generateError("Contraseña Wi-Fi incorrecta");
+    generateError("No se pudo conectar a la red");
+
+    // Reiniciamos el dispositivo
+
     ESP.reset();
   }
 }
 
+// Obtiene el token del usuario
+
 void setToken()
 {
+
+  // Intenteamos conectarnos
+
   Serial.println("Obteniendo token ...");
   client.setInsecure();
   client.connect(URL_P_M, 443);
 
+  // Iniciamos la configuración
+
   http.begin(client, URL_P_M + LOGIN);
   http.addHeader("Content-Type", "application/json");
 
+  // Establecemos usuario y contrasñea
+
   String user = configuration["user"];
   String pskUser = configuration["passwordUser"];
+
+  // Lanzamos y obtenemos el código de error
 
   int httpResponseCode = http.POST("{\"dni\":\"" + user + "\", \"password\":\"" + pskUser + "\"}");
 
   Serial.println("Respuesta: ");
   Serial.println(httpResponseCode);
 
+  // Si no es correcto reseteamos la configuración 
   if (!(httpResponseCode == 200 || httpResponseCode == 201))
   {
     SPIFFS.remove("/config.json");
 
     if (httpResponseCode == 400) {
+
+      // En caso de error leemos el error
       DynamicJsonDocument responseJSON(1024);
       deserializeJson(responseJSON, http.getString());
       String messageError = responseJSON["mensaje"];
@@ -108,13 +151,20 @@ void setToken()
       generateError(messageError.c_str());
     }
     else {
+      
+      // Generamos un error
+
       generateError("Servidor no disponible");
     }
 
+    // Reiniciamos
+    
     ESP.reset();
   }
   else
   {
+    // Si todo ha ido correcto obtenemos el token y lo guardamos 
+
     DynamicJsonDocument response(1024);
     deserializeJson(response, http.getString());
 
@@ -124,16 +174,23 @@ void setToken()
   }
 }
 
+// Resetea el dispositivo
 void resetConfig()
 {
   Serial.println("Reestablecimiendo ...");
 
+  // Borramos la configuración y el fichero de error
+
   SPIFFS.remove("/config.json");
   SPIFFS.remove("/error.json");
+
+  // Reseteamos el dispositivo
 
   ESP.reset();
 }
 
+
+// Convierte la señal del dispositivo a porcentaje
 int dBmtoPercentage(int dBm)
 {
   int quality;
